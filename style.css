@@ -720,3 +720,11 @@ footer p {
         grid-template-columns: 1fr 1fr 1fr;
     }
 }
+
+@media (max-width: 767px) {
+    .hero-section {
+        /* FIX: Mobile browsers often ignore 'fixed' or fail to render the image.
+           Setting it to 'scroll' ensures the image displays correctly on phones. */
+        background-attachment: scroll !important;
+    }
+}

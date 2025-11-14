@@ -1,0 +1,722 @@
+/*
+ * STYLE.CSS for KHA BUILDERS
+ *
+ * This file controls the entire look and feel of your website.
+ * It uses a "mobile-first" approach.
+ *
+ * HOW TO EDIT:
+ * - Colors, fonts, and spacing can be changed in the :root section.
+ * - Each section from index.html (e.g., .hero-section, .about-section)
+ * is clearly marked below.
+ * - Responsive design is handled by @media queries at the bottom.
+ */
+
+
+/* ==================================================
+  CSS VARIABLES (SITE-WIDE THEME)
+  ==================================================
+  Change these values to easily update the site's theme.
+*/
+:root {
+    /* Colors */
+    --primary-color: #cda434;   /* Gold */
+    --secondary-color: #2c2c2c; /* Dark Grey */
+    --light-color: #ffffff;    /* White */
+    --dark-color: #222222;     /* Darker Grey (for footer) */
+    --text-color: #555555;     /* Standard body text */
+    --text-color-light: #f4f4f4; /* Light text for dark backgrounds */
+    --border-color: #eee;
+    --off-white: #eeeaea;
+    
+    /* Fonts */
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji", 
+                   "Segoe UI Emoji", "Segoe UI Symbol";
+    
+    /* Layout */
+    --container-width: 1100px;
+    --header-height: 70px;
+    --spacing-xs: 0.5rem; /* 8px */
+    --spacing-s: 1rem;   /* 16px */
+    --spacing-m: 2rem;   /* 32px */
+    --spacing-l: 4rem;   /* 64px */
+}
+
+/* ==================================================
+  GLOBAL RESETS & BASE STYLES
+  ==================================================
+*/
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    /* This creates the smooth scroll effect */
+    scroll-behavior: smooth;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+body {
+    font-family: var(--font-family);
+    color: var(--text-color);
+    background-color: var(--light-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: var(--secondary-color);
+    line-height: 1.2;
+    margin-bottom: var(--spacing-s);
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+
+p {
+    margin-bottom: var(--spacing-s);
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--secondary-color);
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Base utility for page sections */
+section {
+    padding: var(--spacing-l) 0;
+}
+
+/* Standard container for content */
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-m); /* 32px padding on mobile */
+}
+
+/* Re-usable button style */
+.cta-button {
+    display: inline-block;
+    padding: var(--spacing-s) var(--spacing-m);
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: var(--secondary-color);
+    color: var(--light-color);
+    transform: translateY(-2px);
+}
+
+/* Re-usable grid container */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile-first: 1 column */
+    gap: var(--spacing-m);
+    align-items: center;
+}
+
+/* Common section title style */
+.section-title {
+    text-align: center;
+    margin-bottom: var(--spacing-m);
+}
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: var(--primary-color);
+    margin: 0.5rem auto 0;
+}
+
+/* ==================================================
+  HEADER & NAVIGATION
+  ==================================================
+*/
+#main-header {
+    background-color: var(--light-color);
+    border-bottom: 1px solid var(--border-color);
+    height: var(--header-height);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    transition: box-shadow 0.3s ease, transform 0.3s ease-in-out;
+}
+
+#main-header.hidden {
+    transform: translateY(-100%);
+}
+
+/* Style added by JS on scroll */
+#main-header.scrolled {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    height: 100%;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+}
+
+.logo img {
+    /* Controls the height of your logo */
+    height: 45px; 
+    width: auto;  /* Width will scale automatically */
+    display: block;
+}
+
+.logo-text:hover {
+    color: var(--primary-color);
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column; /* Mobile: stacks vertically */
+    position: absolute;
+    top: var(--header-height);
+    left: -100%; /* Hides menu off-screen */
+    width: 100%;
+    background-color: var(--light-color);
+    padding: var(--spacing-s) 0;
+    border-bottom: 1px solid var(--border-color);
+    transition: left 0.3s ease-in-out;
+}
+
+/* JS-toggled class for mobile menu */
+.nav-menu.active {
+    left: 0;
+}
+
+.nav-menu li {
+    width: 100%;
+    text-align: center;
+}
+
+.nav-menu a {
+    display: block;
+    padding: var(--spacing-s);
+    color: var(--secondary-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+    color: var(--primary-color);
+}
+
+/* Hamburger Menu Icon */
+.hamburger {
+    display: block; /* Show on mobile */
+    cursor: pointer;
+}
+
+.hamburger .bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background-color: var(--secondary-color);
+    transition: all 0.3s ease-in-out;
+}
+
+/* JS-toggled class for 'X' animation */
+.hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+}
+.hamburger.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+.hamburger.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* ==================================================
+  HERO SECTION
+  ==================================================
+*/
+.hero-section {
+    height: 90vh; /* Not 100vh, to account for header */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--light-color);
+    
+    /* HERO BACKGROUND IMAGE
+      Replace this URL with your 1920x1080px image.
+    */
+    background-image: url(images/hero.jpg);
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed; /* Parallax effect */
+}
+
+/* Dark overlay for better text readability */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content h1 {
+    color: var(--light-color);
+    font-size: 2.2rem; /* Mobile first font size */
+    margin-bottom: var(--spacing-s);
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-m);
+}
+
+/* ==================================================
+  ABOUT US SECTION
+  ==================================================
+*/
+.about-section {
+    background-color:var(--off-white); /* Slight off-white */
+}
+
+.about-text p {
+    margin-bottom: var(--spacing-s);
+}
+
+.about-image img {
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* ==================================================
+  SERVICES SECTION
+  ==================================================
+*/
+.services-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile: 1 column */
+    gap: var(--spacing-m);
+}
+
+.service-card {
+    background-color: var(--light-color);
+    border: 1px solid var(--border-color);
+    padding: var(--spacing-m);
+    text-align: center;
+    border-radius: 5px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+/* SERVICE ICON
+  This is a placeholder. Replace <div> with <img> 
+  or a font icon (e.g., FontAwesome).
+  Suggested image size: 128x128px
+*/
+.service-icon {
+    font-size: 3rem; /* Placeholder emoji size */
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-s);
+}
+
+.service-card h3 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-xs);
+}
+
+/* ==================================================
+  PROJECTS SECTION
+  ==================================================
+*/
+.projects-section {
+    background-color: var(--off-white);
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile: 1 column */
+    gap: var(--spacing-m);
+}
+
+.project-card {
+    background-color: var(--light-color);
+    border-radius: 5px;
+    overflow: hidden; /* Clips the image */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover {
+    transform: scale(1.03);
+}
+
+.project-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.project-info {
+    padding: var(--spacing-s);
+}
+
+.project-info h3 {
+    margin-bottom: var(--spacing-xs);
+}
+
+/* ==================================================
+  TESTIMONIALS SECTION
+  ==================================================
+*/
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile: 1 column */
+    gap: var(--spacing-m);
+}
+
+.testimonial-card {
+    background-color: #fdfdfd;
+    border: 1px solid var(--border-color);
+    border-left: 5px solid var(--primary-color);
+    padding: var(--spacing-m);
+    border-radius: 5px;
+    text-align: center;
+}
+
+
+.testimonial-card blockquote {
+    font-style: italic;
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-s);
+}
+
+.testimonial-card cite {
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+/* ==================================================
+  GET A QUOTE SECTION
+  ==================================================
+*/
+.quote-section {
+    background-color: var(--secondary-color);
+    color: var(--text-color-light);
+}
+
+.quote-section .section-title,
+.quote-section h2 {
+    color: var(--light-color);
+}
+.quote-section .section-title::after {
+    background-color: var(--primary-color);
+}
+
+.quote-section p {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto var(--spacing-m);
+}
+
+#quote-form {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: var(--spacing-s);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+}
+
+#quote-form input[type="text"],
+#quote-form input[type="tel"],
+#quote-form input[type="email"],
+#quote-form textarea {
+    width: 100%;
+    padding: var(--spacing-s);
+    border: 1px solid #555;
+    background-color: #333;
+    color: var(--light-color);
+    border-radius: 5px;
+    font-family: var(--font-family);
+    font-size: 1rem;
+}
+
+#quote-form textarea {
+    resize: vertical;
+}
+
+#quote-form button {
+    width: 100%;
+    margin-top: var(--spacing-s);
+    font-size: 1.1rem;
+}
+
+/* ==================================================
+  CONTACT US SECTION
+  ==================================================
+*/
+.contact-info ul li {
+    margin-bottom: var(--spacing-s);
+    display: flex;
+}
+.contact-info strong {
+    margin-right: var(--spacing-xs);
+    min-width: 80px; /* Aligns the text */
+}
+
+.map-embed iframe {
+    border: 0;
+    border-radius: 5px;
+    width: 100%;
+    height: 400px;
+}
+
+/* ==================================================
+  FOOTER SECTION
+  ==================================================
+*/
+footer {
+    background-color: var(--dark-color);
+    color: var(--text-color-light);
+    padding-top: var(--spacing-l);
+    padding-bottom: var(--spacing-m);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile: 1 column */
+    gap: var(--spacing-m);
+    margin-bottom: var(--spacing-m);
+    text-align: center;
+}
+
+footer h4 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-s);
+}
+
+footer ul li a {
+    color: var(--text-color-light);
+    padding: var(--spacing-xs) 0;
+    display: block;
+}
+footer ul li a:hover {
+    color: var(--primary-color);
+}
+
+footer p {
+    margin-bottom: var(--spacing-xs);
+    font-size: 0.9rem;
+}
+
+.copyright {
+    text-align: center;
+    border-top: 1px solid #444;
+    padding-top: var(--spacing-m);
+    font-size: 0.9rem;
+}
+
+/* ==================================================
+  SCROLL-TO-TOP BUTTON
+  ==================================================
+*/
+.scroll-top-button {
+    position: fixed;
+    bottom: var(--spacing-m);
+    right: var(--spacing-m);
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    z-index: 999;
+    
+    /* Hidden by default */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+.scroll-top-button:hover {
+    background-color: var(--secondary-color);
+    color: var(--light-color);
+}
+
+/* JS-toggled class to show the button */
+.scroll-top-button.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+
+/* ==================================================================
+  ==================================================================
+  RESPONSIVE DESIGN (MEDIA QUERIES)
+  This is where the mobile-first design "scales up".
+  ==================================================================
+  ==================================================================
+*/
+
+/* Medium devices (tablets, 768px and up)
+*/
+@media (min-width: 768px) {
+    
+    /* Make nav menu horizontal */
+    .nav-menu {
+        display: flex;
+        flex-direction: row;
+        position: static;
+        width: auto;
+        background-color: transparent;
+        border: none;
+        padding: 0;
+    }
+    .nav-menu li {
+        width: auto;
+    }
+    .nav-menu a {
+        padding: 0 var(--spacing-s);
+    }
+
+    /* Hide hamburger on tablet+ */
+    .hamburger {
+        display: none;
+    }
+
+    .navbar .container {
+        max-width: 100%; /* Stretches the navbar container to full-width */
+    }
+
+    /* Hero */
+    .hero-content h1 {
+        font-size: 3.5rem;
+    }
+
+    /* 2-Column Grids */
+    .grid-container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .testimonial-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    /* Footer */
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
+        text-align: left;
+    }
+
+    #quote-form {
+        /* Make form 2-column */
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 var(--spacing-m);
+        grid-template-areas: 
+            "name-group   phone-group"
+            "email-group  email-group"
+            "message-group message-group"
+            "button-group  button-group";
+    }
+    /* Assign form elements to grid areas */
+    .form-group:nth-child(1) { grid-area: name-group; }
+    .form-group:nth-child(2) { grid-area: phone-group; }
+    .form-group:nth-child(3) { grid-area: email-group; }
+    .form-group:nth-child(4) { grid-area: message-group; }
+    #quote-form button { grid-area: button-group; }
+
+}
+
+/* Large devices (desktops, 1024px and up)
+*/
+@media (min-width: 1024px) {
+
+    /* Use 3-column grids for services and projects */
+    .services-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .projects-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .footer-content {
+        /* 3-column footer: empty | links | info */
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
